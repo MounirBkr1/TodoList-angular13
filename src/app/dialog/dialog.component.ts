@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-dialog',
@@ -13,7 +14,10 @@ export class DialogComponent implements OnInit {
   productForm!:FormGroup;
 
 
-  constructor(private formBuilder:FormBuilder) { }
+  constructor(
+    private formBuilder:FormBuilder,
+    private api:ApiService
+  ) { }
 
   ngOnInit(): void {
   this.productForm=this.formBuilder.group({
@@ -25,6 +29,12 @@ export class DialogComponent implements OnInit {
     date:['',Validators.required]
 
   })
+  }
+
+  addProduct(){
+    if(this.productForm.valid){
+      this.api.postProduct(this.productForm.value)
+    }
   }
 
 
